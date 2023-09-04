@@ -1,6 +1,8 @@
 from typing import Any, Dict
 import numpy as np
 from PIL import Image
+from scipy.spatial.transform import Rotation
+import pdb
 
 
 ################################################################################################
@@ -63,12 +65,26 @@ def transform_step(step: Dict[str, Any]) -> Dict[str, Any]:
        Input is dict of numpy arrays."""
     img = Image.fromarray(step['observation']['image']).resize(
         (128, 128), Image.Resampling.LANCZOS)
+    
+    ee_pos = step['action'][:3]
+    ee_quat = step['action'][3:7]
+    gripper_pos = step['action'][8:] + 0.01536961 #Correcting for the range due to eye-in-hand camera. Gripper now ranges from 0.04050 (fully opened) to 0.0 (fully closed)
+    
+    terminate_episode = np.asarray([step['action'][-1] < 0.005], np.float32) # Since all trials are a success in dataset and we have a single object we can hard code this
+
+
+    # Create a Rotation object from a quaternion [xyzw]
+    rot = Rotation.from_quat(ee_quat)
+    # Convert quaternion to rpy
+    ee_rot = rot.as_euler('zyx', degrees=False).astype(np.float32)
+
+
     transformed_step = {
         'observation': {
             'image': np.array(img),
         },
         'action': np.concatenate(
-            [step['action'][:3], step['action'][5:8], step['action'][-2:]]),
+            [ee_pos, ee_rot, gripper_pos, terminate_episode]),
     }
 
     # copy over all other fields unchanged
