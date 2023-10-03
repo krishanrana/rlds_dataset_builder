@@ -1,3 +1,7 @@
+# Download Dataset
+
+The full raw dataset is made available for download at this [link](#)
+
 # RLDS Dataset Conversion
 
 This repo demonstrates how to convert an existing dataset into RLDS format for X-embodiment experiment integration.
