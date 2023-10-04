@@ -1,5 +1,5 @@
 # Download Dataset
-This repository contains the code to convert the QUT Dynamic Grasping dataset into the RLDS format.
+This repository contains the code to convert the QUT Dynamic Grasping dataset into the RLDS format which is shipped with the [Open X-Embodiment Dataset](https://robotics-transformer-x.github.io/).
 The original raw dataset is made available for download at this [link](https://www.dropbox.com/scl/fi/enwhlff69d9k33ik04drh/dgrasp_dataset.tar.xz?rlkey=lct37yakc4v0v4lzz5ut8t0tc&dl=0).
 
 # RLDS Dataset Conversion
